@@ -1,6 +1,16 @@
 const config = require('../../config'),
-  axios = require('axios');
+  request = require('request-promise'),
+  errors = require('../errors'),
+  logger = require('../logger');
 
-exports.findAlbums = () => axios.get(`${config.common.external_api_url}/albums`);
+exports.findAlbums = () =>
+  request({ uri: `${config.common.external_api_url}/albums`, json: true }).catch(err => {
+    logger.error(err.message);
+    throw errors.externalApiError('Error consuming external API');
+  });
+
 exports.findPhotosByAlbumId = albumId =>
-  axios.get(`${config.common.external_api_url}/photos?albumId=${albumId}`);
+  request({ uri: `${config.common.external_api_url}/photos?albumId=${albumId}`, json: true }).catch(err => {
+    logger.error(err.message);
+    throw errors.externalApiError('Error consuming external API');
+  });
