@@ -10,7 +10,7 @@ exports.findAll = (req, res, next) =>
 exports.findPhotosById = (req, res, next) => {
   const albumId = req.params.id;
   if (isNaN(albumId)) {
-    return next(errors.externalApiError('The album Id is not a valid number'));
+    return next(errors.invalidParameterError('The album Id is not a valid number'));
   }
   return externalApi
     .findPhotosByAlbumId(albumId)

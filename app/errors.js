@@ -11,3 +11,6 @@ exports.defaultError = message => internalError(message, exports.DEFAULT_ERROR);
 
 exports.EXTERNAL_API_ERROR = 'external_api_error';
 exports.externalApiError = message => internalError(message, exports.EXTERNAL_API_ERROR);
+
+exports.INVALID_PARAMETER_ERROR = 'invalid_parameter_error';
+exports.invalidParameterError = message => internalError(message, exports.INVALID_PARAMETER_ERROR);
