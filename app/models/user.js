@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       timestamps: true,
       tableName: 'users',
-      paranoid: true
+      underscored: true
     }
   );
   return user;
