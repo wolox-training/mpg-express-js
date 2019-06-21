@@ -25,8 +25,8 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      updatedAt: Sequelize.DATE,
-      createdAt: Sequelize.DATE
+      updated_at: Sequelize.DATE,
+      created_at: Sequelize.DATE
     }),
   /* eslint-disable no-unused-vars */
   down: (queryInterface, Sequelize) => queryInterface.dropTable('users')
