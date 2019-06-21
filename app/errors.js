@@ -14,3 +14,6 @@ exports.externalApiError = message => internalError(message, exports.EXTERNAL_AP
 
 exports.INVALID_PARAMETER_ERROR = 'invalid_parameter_error';
 exports.invalidParameterError = message => internalError(message, exports.INVALID_PARAMETER_ERROR);
+
+exports.USER_SIGNUP_ERROR = 'user_signup_error';
+exports.userSignupError = message => internalError(message, exports.USER_SIGNUP_ERROR);
