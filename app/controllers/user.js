@@ -2,7 +2,9 @@ const errors = require('../errors'),
   { createUser } = require('../servicesDatabase/user'),
   logger = require('../logger'),
   { validateEmail, validatePassword } = require('../utils/userSignup'),
-  bcrypt = require('bcryptjs');
+  bcrypt = require('bcryptjs'),
+  rounds = 10,
+  stringToHash = 'B4c0//';
 
 exports.signUp = (req, res, next) => {
   const newUser = req.body;
@@ -15,8 +17,8 @@ exports.signUp = (req, res, next) => {
     return next(errors.userSignupError('invalid password'));
   }
   return bcrypt
-    .genSalt(10)
-    .then(salt => bcrypt.hash('B4c0//', salt))
+    .genSalt(rounds)
+    .then(salt => bcrypt.hash(stringToHash, salt))
     .then(hash => {
       newUser.password = hash;
       return createUser(newUser);

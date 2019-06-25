@@ -8,11 +8,4 @@ exports.validateEmail = email => {
   return false;
 };
 
-exports.validatePassword = password => {
-  if (/^[a-z0-9]+$/i.test(password)) {
-    if (password.length >= 8) {
-      return true;
-    }
-  }
-  return false;
-};
+exports.validatePassword = password => /^[a-z0-9]+$/i.test(password) && password.length >= 8;
