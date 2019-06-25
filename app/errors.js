@@ -17,3 +17,6 @@ exports.invalidParameterError = message => internalError(message, exports.INVALI
 
 exports.USER_SIGNUP_ERROR = 'user_signup_error';
 exports.userSignupError = message => internalError(message, exports.USER_SIGNUP_ERROR);
+
+exports.HASH_ERROR = 'hash_error';
+exports.hashError = message => internalError(message, exports.HASH_ERROR);
