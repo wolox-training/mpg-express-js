@@ -20,3 +20,6 @@ exports.userSignupError = message => internalError(message, exports.USER_SIGNUP_
 
 exports.HASH_ERROR = 'hash_error';
 exports.hashError = message => internalError(message, exports.HASH_ERROR);
+
+exports.USER_DATA_ERROR = 'user_data_error';
+exports.userDataError = message => internalError(message, exports.USER_DATA_ERROR);

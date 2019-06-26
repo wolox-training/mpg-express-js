@@ -9,6 +9,7 @@ const statusCodes = {
   [errors.EXTERNAL_API_ERROR]: 500,
   [errors.INVALID_PARAMETER_ERROR]: 400,
   [errors.USER_SIGNUP_ERROR]: 503,
+  [errors.USER_DATA_ERROR]: 503,
   [errors.HASH_ERROR]: 500
 };
 
