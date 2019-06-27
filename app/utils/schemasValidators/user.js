@@ -1,4 +1,5 @@
-const { validatePassword, validateEmail } = require('../userSignup.js');
+const { validatePassword, validateEmail } = require('../userSignup.js'),
+  errors = require('../../errors');
 /* eslint-disable no-undef */
 exports.userSignUpSchema = {
   name: {
@@ -16,21 +17,21 @@ exports.userSignUpSchema = {
   email: {
     custom: {
       options: value => validateEmail(value),
-      errorMessage: 'Invalid Email'
+      errorMessage: errors.INVALID_EMAIL_ERROR
     },
     isEmpty: {
       negated: true,
-      errorMessage: 'Email is required'
+      errorMessage: errors.REQUIRED_EMAIL_ERROR
     }
   },
   password: {
     custom: {
       options: value => validatePassword(value),
-      errorMessage: 'Invalid password'
+      errorMessage: errors.INVALID_PASSWORD_ERROR
     },
     isEmpty: {
       negated: true,
-      errorMessage: 'Password is required'
+      errorMessage: errors.REQUIRED_PASSWORD_ERROR
     }
   }
 };

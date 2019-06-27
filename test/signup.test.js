@@ -3,7 +3,8 @@ const request = require('supertest'),
   { createUser } = require('../app/servicesDatabase/user');
 
 const userCreatedStatusCode = 200,
-  signUpValidationError = 503,
+  signUpValidationError = 422,
+  signUpError = 503,
   testUser = {
     name: 'Jonh',
     lastname: 'Doe',
@@ -27,7 +28,7 @@ describe('POST /users', () => {
           .send(testUser)
       )
       .then(response => {
-        expect(response.statusCode).toBe(signUpValidationError);
+        expect(response.statusCode).toBe(signUpError);
       }));
   test('Signing up with invalid password', () => {
     const testUserInvalidPassword = testUser;

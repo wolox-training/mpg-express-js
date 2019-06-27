@@ -21,5 +21,10 @@ exports.userSignupError = message => internalError(message, exports.USER_SIGNUP_
 exports.HASH_ERROR = 'hash_error';
 exports.hashError = message => internalError(message, exports.HASH_ERROR);
 
-exports.USER_DATA_ERROR = 'user_data_error';
-exports.userDataError = message => internalError(message, exports.USER_DATA_ERROR);
+exports.SCHEMA_ERROR = 'schema_error';
+exports.schemaError = message => internalError(message, exports.SCHEMA_ERROR);
+
+exports.INVALID_EMAIL_ERROR = 'Invalid Email';
+exports.REQUIRED_EMAIL_ERROR = 'Email is required';
+exports.INVALID_PASSWORD_ERROR = 'Invalid password';
+exports.REQUIRED_PASSWORD_ERROR = 'Password is required';
