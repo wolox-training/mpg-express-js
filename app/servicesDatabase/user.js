@@ -9,12 +9,13 @@ exports.createUser = newUser =>
   });
 
 exports.findUserByEmail = userEmail =>
-  user.findOne({
-    where: {
-      email: userEmail
-    }
-  }).catch(err => {
-    logger.error(err.message);
-    throw errors.notFoundError('User email not found in database');
-  });
-
+  user
+    .findOne({
+      where: {
+        email: userEmail
+      }
+    })
+    .catch(err => {
+      logger.error(err.message);
+      throw errors.notFoundError('User email not found in database');
+    });
