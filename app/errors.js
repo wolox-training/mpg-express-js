@@ -23,8 +23,3 @@ exports.hashError = message => internalError(message, exports.HASH_ERROR);
 
 exports.SCHEMA_ERROR = 'schema_error';
 exports.schemaError = message => internalError(message, exports.SCHEMA_ERROR);
-
-exports.INVALID_EMAIL_ERROR = 'Invalid Email';
-exports.REQUIRED_EMAIL_ERROR = 'Email is required';
-exports.INVALID_PASSWORD_ERROR = 'Invalid password';
-exports.REQUIRED_PASSWORD_ERROR = 'Password is required';

@@ -1,17 +1,17 @@
 const { validatePassword, validateEmail } = require('../userSignup.js'),
-  errors = require('../../errors');
+  errors = require('../../constants/errors');
 /* eslint-disable no-undef */
 exports.userSignUpSchema = {
   name: {
     isEmpty: {
       negated: true,
-      errorMessage: 'Name is required'
+      errorMessage: errors.REQUIRED_NAME_ERROR
     }
   },
   lastname: {
     isEmpty: {
       negated: true,
-      errorMessage: 'Lastname is required'
+      errorMessage: errors.REQUIRED_LASTNAME_ERROR
     }
   },
   email: {
