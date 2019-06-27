@@ -1,4 +1,4 @@
-const { createUser } = require('../servicesDatabase/user'),
+const { createUser, findUserByEmail } = require('../servicesDatabase/user'),
   logger = require('../logger'),
   { encryptPassword } = require('../utils/userSignup');
 
@@ -18,5 +18,8 @@ exports.signUp = (req, res, next) => {
 };
 /* eslint-disable no-unused-vars */
 exports.signIn = (req, res, next) => {
-  const user = req.body;
+  const { email, password } = req.body;
+  return findUserByEmail(email)
+    .then(userEmail => res.send(userEmail))
+    .catch(next);
 };
