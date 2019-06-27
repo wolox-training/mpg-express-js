@@ -16,7 +16,7 @@ exports.signUp = (req, res, next) => {
     })
     .catch(next);
 };
-/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 exports.signIn = (req, res, next) => {
   const user = req.body;
 };

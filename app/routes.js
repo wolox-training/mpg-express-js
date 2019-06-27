@@ -9,5 +9,5 @@ exports.init = app => {
   app.get('/albums', albums.findAll);
   app.get('/albums/:id/photos', albums.findPhotosById);
   app.post('/users', [schemaValidator(userSignUpSchema)], users.signUp);
-  app.post('/users/sessions', [schemaValidator(userSignInSchema)], users.signIn);
+  app.post('/users/sessions', [schemaValidator(userSignUpSchema)], users.signIn);
 };
