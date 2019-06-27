@@ -10,7 +10,8 @@ const statusCodes = {
   [errors.INVALID_PARAMETER_ERROR]: 400,
   [errors.USER_SIGNUP_ERROR]: 503,
   [errors.SCHEMA_ERROR]: 422,
-  [errors.HASH_ERROR]: 500
+  [errors.HASH_ERROR]: 500,
+  [errors.NOT_FOUND_ERROR]: 404
 };
 
 exports.handle = (error, req, res, next) => {
