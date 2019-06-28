@@ -8,11 +8,11 @@ exports.createUser = newUser =>
     throw errors.userSignupError('Error creating user in the database');
   });
 
-exports.findUserByEmail = userEmail =>
+exports.findUserByEmail = email =>
   user
     .findOne({
       where: {
-        email: userEmail
+        email
       }
     })
     .catch(err => {

@@ -6,7 +6,7 @@ const app = require('../app.js'),
   { encryptPassword } = require('../app/utils/userValidations');
 
 const singInStatusCode = 200,
-  signInInvalidUserCode = 404,
+  signInInvalidUserCode = 422,
   signInInvalidPasswordCode = 422,
   signInSchemaErrorCode = 422,
   validPassword = 'myPassword123',

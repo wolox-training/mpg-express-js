@@ -23,17 +23,18 @@ exports.signIn = (req, res, next) => {
   const { email, password } = req.body;
   return findUserByEmail(email)
     .then(user => {
-      if (user) {
-        return comparePassword(password, user.password);
+      if (!user) {
+        throw errors.userSigninError('Email or password invalid');
       }
-      throw errors.notFoundError('User email not found in database');
+      return comparePassword(password, user.password);
     })
     .then(passwordIsValid => {
-      if (passwordIsValid) {
-        logger.info(`User ${email} singed in successfully`);
-        return res.status(200).send({ token: generateToken(email) });
+      if (!passwordIsValid) {
+        throw errors.userSigninError('Email or password invalid');
       }
-      throw errors.userSigninError('User password is no valid');
+      const token = generateToken(email);
+      logger.info(`User ${email} singed in successfully`);
+      return res.status(200).send({ token });
     })
     .catch(next);
 };
