@@ -41,8 +41,7 @@ const config = {
     session: {
       header_name: 'authorization',
       secret: process.env.NODE_API_SESSION_SECRET
-    },
-    privateKey: process.env.PRIVATE_KEY
+    }
   }
 };
 
