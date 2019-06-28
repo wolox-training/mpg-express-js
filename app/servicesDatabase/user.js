@@ -17,5 +17,5 @@ exports.findUserByEmail = userEmail =>
     })
     .catch(err => {
       logger.error(err.message);
-      throw errors.notFoundError('User email not found in database');
+      throw errors.databaseError('Error finding email in database');
     });

@@ -26,3 +26,6 @@ exports.schemaError = message => internalError(message, exports.SCHEMA_ERROR);
 
 exports.NOT_FOUND_ERROR = 'not_found_error';
 exports.notFoundError = message => internalError(message, exports.NOT_FOUND_ERROR);
+
+exports.USER_SIGNIN_ERROR = 'user_signin_error';
+exports.userSigninError = message => internalError(message, exports.USER_SIGNIN_ERROR);

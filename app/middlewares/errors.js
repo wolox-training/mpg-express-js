@@ -11,7 +11,8 @@ const statusCodes = {
   [errors.USER_SIGNUP_ERROR]: 503,
   [errors.SCHEMA_ERROR]: 422,
   [errors.HASH_ERROR]: 500,
-  [errors.NOT_FOUND_ERROR]: 404
+  [errors.NOT_FOUND_ERROR]: 404,
+  [errors.USER_SIGNIN_ERROR]: 422
 };
 
 exports.handle = (error, req, res, next) => {

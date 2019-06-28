@@ -1,4 +1,4 @@
-const { validatePassword, validateEmail } = require('../userSignup.js'),
+const { validatePassword, validateEmail } = require('../userValidations.js'),
   errors = require('../../constants/errors');
 /* eslint-disable no-undef */
 exports.userSignUpSchema = {

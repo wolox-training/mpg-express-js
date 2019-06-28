@@ -1,6 +1,8 @@
 const { createUser, findUserByEmail } = require('../servicesDatabase/user'),
+  errors = require('../errors'),
   logger = require('../logger'),
-  { encryptPassword } = require('../utils/userSignup');
+  { encryptPassword, comparePassword } = require('../utils/userValidations'),
+  { generateToken } = require('../utils/token');
 
 exports.signUp = (req, res, next) => {
   const newUser = req.body;
@@ -11,7 +13,7 @@ exports.signUp = (req, res, next) => {
       return createUser(newUser);
     })
     .then(createdUser => {
-      logger.info(`the user ${createdUser.name} was created successfully`);
+      logger.info(`The user ${createdUser.name} was created successfully`);
       res.status(200).send(createdUser);
     })
     .catch(next);
@@ -20,6 +22,18 @@ exports.signUp = (req, res, next) => {
 exports.signIn = (req, res, next) => {
   const { email, password } = req.body;
   return findUserByEmail(email)
-    .then(userEmail => res.send(userEmail))
+    .then(user => {
+      if (user) {
+        return comparePassword(password, user.password);
+      }
+      throw errors.notFoundError('User email not found in database');
+    })
+    .then(passwordIsValid => {
+      if (passwordIsValid) {
+        logger.info(`User ${email} singed in successfully`);
+        return res.status(200).send({ token: generateToken(email) });
+      }
+      throw errors.userSigninError('User password is no valid');
+    })
     .catch(next);
 };

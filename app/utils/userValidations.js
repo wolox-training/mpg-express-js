@@ -21,3 +21,9 @@ exports.encryptPassword = password =>
     logger.error(err.message);
     throw errors.hashError('Error hashing password');
   });
+
+exports.comparePassword = (password, hash) =>
+  bcrypt.compare(password, hash).catch(err => {
+    logger.error(err.message);
+    throw errors.userSigninError('Invalid password');
+  });
