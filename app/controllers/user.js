@@ -18,7 +18,7 @@ exports.signUp = (req, res, next) => {
     })
     .catch(next);
 };
-/* eslint-disable no-unused-vars */
+
 exports.signIn = (req, res, next) => {
   const { email, password } = req.body;
   return findUserByEmail(email)
