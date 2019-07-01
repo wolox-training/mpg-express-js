@@ -29,3 +29,6 @@ exports.notFoundError = message => internalError(message, exports.NOT_FOUND_ERRO
 
 exports.USER_SIGNIN_ERROR = 'user_signin_error';
 exports.userSigninError = message => internalError(message, exports.USER_SIGNIN_ERROR);
+
+exports.AUTHENTICATION_ERROR = 'authentication_error';
+exports.authenticationError = message => internalError(message, exports.AUTHENTICATION_ERROR);

@@ -19,3 +19,9 @@ exports.findUserByEmail = email =>
       logger.error(err.message);
       throw errors.databaseError('Error finding email in database');
     });
+
+exports.getUsersList = (pageSize, offset) =>
+  user.findAll({ limit: pageSize, offset }).catch(err => {
+    logger.error(err.message);
+    throw errors.databaseError('Error finding users in database');
+  });

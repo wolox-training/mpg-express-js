@@ -17,12 +17,21 @@ const singInStatusCode = 200,
 factory.define('user', user, {
   name: factory.chance('name'),
   lastname: factory.chance('name'),
-  email: validEmail,
-  password: encryptPassword(validPassword).then(password => password)
+  email: factory.sequence('user.email', n => `dummy.user${n}@wolox.co`),
+  password: factory.sequence('user.password', n =>
+    encryptPassword(`myPassword${n}`).then(password => password)
+  )
 });
 
 describe('POST /users/sessions', () => {
-  beforeEach(done => factory.create('user').then(() => done()));
+  beforeEach(done =>
+    factory
+      .create('user', {
+        email: validEmail,
+        password: encryptPassword(validPassword).then(password => password)
+      })
+      .then(() => done())
+  );
 
   test('Signing in successfully', () =>
     request(app)

@@ -1,7 +1,8 @@
-const { createUser, findUserByEmail } = require('../servicesDatabase/user'),
+const { createUser, findUserByEmail, getUsersList } = require('../servicesDatabase/user'),
   errors = require('../errors'),
   logger = require('../logger'),
   { encryptPassword, comparePassword } = require('../utils/userValidations'),
+  { pagination } = require('../utils/pagination'),
   { generateToken } = require('../utils/token');
 
 exports.signUp = (req, res, next) => {
@@ -35,6 +36,16 @@ exports.signIn = (req, res, next) => {
       const token = generateToken(email);
       logger.info(`User ${email} singed in successfully`);
       return res.status(200).send({ token });
+    })
+    .catch(next);
+};
+
+exports.getUsers = (req, res, next) => {
+  const { page, pageSize, offset } = pagination(req.query.page, req.query.pageSize);
+  return getUsersList(pageSize, offset)
+    .then(result => {
+      logger.info('Users list consulted successfully');
+      res.status(200).send({ page, pageSize, users: result });
     })
     .catch(next);
 };

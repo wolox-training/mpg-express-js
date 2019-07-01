@@ -12,7 +12,8 @@ const statusCodes = {
   [errors.SCHEMA_ERROR]: 422,
   [errors.HASH_ERROR]: 500,
   [errors.NOT_FOUND_ERROR]: 404,
-  [errors.USER_SIGNIN_ERROR]: 401
+  [errors.USER_SIGNIN_ERROR]: 401,
+  [errors.AUTHENTICATION_ERROR]: 401
 };
 
 exports.handle = (error, req, res, next) => {
