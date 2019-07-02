@@ -1,8 +1,7 @@
 const request = require('supertest'),
   { factory } = require('factory-girl');
 
-const app = require('../app.js'),
-  { encryptPassword } = require('../app/utils/userValidations');
+const app = require('../app.js');
 
 const getUsersStatusCode = 200,
   getUsersNoAuthErrorCode = 401,
@@ -10,13 +9,11 @@ const getUsersStatusCode = 200,
   validEmail = 'dummy.user@wolox.co';
 
 describe('GET /users', () => {
-  beforeEach(done =>
-    factory
-      .create('user', {
-        email: validEmail,
-        password: encryptPassword(validPassword).then(password => password)
-      })
-      .then(() => done())
+  beforeEach(() =>
+    factory.create('user', {
+      email: validEmail,
+      password: validPassword
+    })
   );
 
   test('Get users successfully', () =>

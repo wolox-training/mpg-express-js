@@ -25,12 +25,14 @@ exports.signIn = (req, res, next) => {
   return findUserByEmail(email)
     .then(user => {
       if (!user) {
+        logger.error('Invalid email');
         throw errors.userSigninError('Email or password invalid');
       }
       return comparePassword(password, user.password);
     })
     .then(passwordIsValid => {
       if (!passwordIsValid) {
+        logger.error('Invalid password');
         throw errors.userSigninError('Email or password invalid');
       }
       const token = generateToken(email);

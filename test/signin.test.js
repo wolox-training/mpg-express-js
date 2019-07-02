@@ -14,23 +14,30 @@ const singInStatusCode = 200,
   validEmail = 'dummy.user@wolox.co',
   invalidEmail = 'fake.dummy.user@wolox.co';
 
-factory.define('user', user, {
-  name: factory.chance('name'),
-  lastname: factory.chance('name'),
-  email: factory.sequence('user.email', n => `dummy.user${n}@wolox.co`),
-  password: factory.sequence('user.password', n =>
-    encryptPassword(`myPassword${n}`).then(password => password)
-  )
-});
+factory.define(
+  'user',
+  user,
+  {
+    name: factory.chance('first'),
+    lastname: factory.chance('first'),
+    email: factory.chance('email', { domain: 'wolox.co' }),
+    password: factory.chance('string', { length: 10 })
+  },
+  {
+    afterCreate: model =>
+      encryptPassword(model.password).then(password => {
+        model.password = password;
+        return model.save();
+      })
+  }
+);
 
 describe('POST /users/sessions', () => {
-  beforeEach(done =>
-    factory
-      .create('user', {
-        email: validEmail,
-        password: encryptPassword(validPassword).then(password => password)
-      })
-      .then(() => done())
+  beforeEach(() =>
+    factory.create('user', {
+      email: validEmail,
+      password: validPassword
+    })
   );
 
   test('Signing in successfully', () =>
