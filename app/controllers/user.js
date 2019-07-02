@@ -47,7 +47,7 @@ exports.getUsers = (req, res, next) => {
   return getUsersList(pageSize, offset)
     .then(result => {
       logger.info('Users list consulted successfully');
-      res.status(200).send({ page, pageSize, users: result });
+      return res.status(200).send({ page, pageSize, users: result });
     })
     .catch(next);
 };

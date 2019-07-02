@@ -19,7 +19,7 @@ factory.define(
   user,
   {
     name: factory.chance('first'),
-    lastname: factory.chance('first'),
+    lastname: factory.chance('last'),
     email: factory.chance('email', { domain: 'wolox.co' }),
     password: factory.chance('string', { length: 10 })
   },
