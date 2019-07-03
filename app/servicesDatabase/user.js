@@ -8,8 +8,8 @@ exports.createUser = newUser =>
     throw errors.userSignupError('Error creating user in the database');
   });
 
-exports.updateUser = (userInstance, data) =>
-  userInstance.update(data).catch(err => {
+exports.updateUser = data =>
+  user.upsert(data, { returning: true }).catch(err => {
     logger.error(err.message);
     throw errors.userSignupError('Error updating user in the database');
   });

@@ -52,7 +52,7 @@ describe('POST /admin/users', () => {
             })
         )
         .then(response => {
-          expect(response.body.isAdmin).toBe(true);
+          expect(response.body.updated_user.is_admin).toBe(true);
           expect(response.statusCode).toBe(userPermissionsChangeCode);
         })
     ));

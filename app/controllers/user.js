@@ -1,71 +1,42 @@
-const { createUser, findUserByEmail, getUsersList, updateUser } = require('../servicesDatabase/user'),
-  errors = require('../errors'),
+const { getUsersList } = require('../servicesDatabase/user'),
   logger = require('../logger'),
-  { encryptPassword, comparePassword } = require('../utils/userValidations'),
   { pagination } = require('../utils/pagination'),
-  { generateToken } = require('../utils/token');
+  { userSerializer, listUsersSerializer } = require('../serializers/user');
+
+const { createNewUser, loginUser, loginAdmin } = require('../interactors/user');
 
 exports.signUp = (req, res, next) => {
   const newUser = req.body;
 
-  return encryptPassword(newUser.password)
-    .then(hash => {
-      newUser.password = hash;
-      return createUser(newUser);
-    })
+  return createNewUser(newUser)
     .then(createdUser => {
       logger.info(`The user ${createdUser.name} was created successfully`);
-      return res.status(200).send(createdUser);
+      return res.status(200).send({ created_user: userSerializer(createdUser) });
     })
     .catch(next);
 };
 
 exports.signUpAdmin = (req, res, next) => {
-  const { email } = req.body;
-
-  return findUserByEmail(email)
-    .then(user => {
-      if (user) {
-        if (user.isAdmin) {
-          logger.error(`The email ${email} already exist as admin`);
-          throw errors.userSignupError('The email already exist as admin');
-        }
-        return updateUser(user, { isAdmin: true }).then(updatedUser => {
-          logger.info(`User ${updatedUser.email} updated as admin`);
-          return res.status(200).send(updatedUser);
-        });
+  const user = req.body;
+  return loginAdmin(user)
+    .then(response => {
+      const isCreated = response[1];
+      if (isCreated) {
+        const createdUser = response[0];
+        logger.info(`The admin user ${createdUser.name} was created successfully`);
+        return res.status(200).send({ created_user: userSerializer(createdUser) });
       }
-      return encryptPassword(req.body.password)
-        .then(hash => {
-          const newUser = req.body;
-          newUser.password = hash;
-          newUser.isAdmin = true;
-          return createUser(newUser);
-        })
-        .then(createdUser => {
-          logger.info(`The admin user ${createdUser.name} was created successfully`);
-          return res.status(200).send(createdUser);
-        });
+      const updatedUser = response[0];
+      logger.info(`User ${updatedUser.email} updated as admin`);
+      return res.status(200).send({ updated_user: userSerializer(updatedUser) });
     })
     .catch(next);
 };
 
 exports.signIn = (req, res, next) => {
   const { email, password } = req.body;
-  return findUserByEmail(email)
-    .then(user => {
-      if (!user) {
-        logger.error('Invalid email');
-        throw errors.userSigninError('Email or password invalid');
-      }
-      return comparePassword(password, user.password);
-    })
-    .then(passwordIsValid => {
-      if (!passwordIsValid) {
-        logger.error('Invalid password');
-        throw errors.userSigninError('Email or password invalid');
-      }
-      const token = generateToken({ user: email });
+  return loginUser(email, password)
+    .then(token => {
       logger.info(`User ${email} singed in successfully`);
       return res.status(200).send({ token });
     })
@@ -77,7 +48,7 @@ exports.getUsers = (req, res, next) => {
   return getUsersList(pageSize, offset)
     .then(result => {
       logger.info('Users list consulted successfully');
-      return res.status(200).send({ page, pageSize, users: result });
+      return res.status(200).send({ page, pageSize, users: listUsersSerializer(result) });
     })
     .catch(next);
 };
