@@ -1,4 +1,4 @@
-const { createUser, findUserByEmail, getUsersList } = require('../servicesDatabase/user'),
+const { createUser, findUserByEmail, getUsersList, updateUser } = require('../servicesDatabase/user'),
   errors = require('../errors'),
   logger = require('../logger'),
   { encryptPassword, comparePassword } = require('../utils/userValidations'),
@@ -15,7 +15,37 @@ exports.signUp = (req, res, next) => {
     })
     .then(createdUser => {
       logger.info(`The user ${createdUser.name} was created successfully`);
-      res.status(200).send(createdUser);
+      return res.status(200).send(createdUser);
+    })
+    .catch(next);
+};
+
+exports.signUpAdmin = (req, res, next) => {
+  const { email } = req.body;
+
+  return findUserByEmail(email)
+    .then(user => {
+      if (user) {
+        if (user.isAdmin) {
+          logger.error(`The email ${email} already exist as admin`);
+          throw errors.userSignupError('The email already exist as admin');
+        }
+        return updateUser(user, { isAdmin: true }).then(updatedUser => {
+          logger.info(`User ${updatedUser.email} updated as admin`);
+          return res.status(200).send(updatedUser);
+        });
+      }
+      return encryptPassword(req.body.password)
+        .then(hash => {
+          const newUser = req.body;
+          newUser.password = hash;
+          newUser.isAdmin = true;
+          return createUser(newUser);
+        })
+        .then(createdUser => {
+          logger.info(`The admin user ${createdUser.name} was created successfully`);
+          return res.status(200).send(createdUser);
+        });
     })
     .catch(next);
 };
@@ -35,7 +65,7 @@ exports.signIn = (req, res, next) => {
         logger.error('Invalid password');
         throw errors.userSigninError('Email or password invalid');
       }
-      const token = generateToken(email);
+      const token = generateToken({ user: email });
       logger.info(`User ${email} singed in successfully`);
       return res.status(200).send({ token });
     })

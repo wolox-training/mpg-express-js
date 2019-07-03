@@ -1,36 +1,16 @@
 const request = require('supertest'),
   { factory } = require('factory-girl');
 
-const app = require('../app.js'),
-  { user } = require('../app/models'),
-  { encryptPassword } = require('../app/utils/userValidations');
+const app = require('../app.js');
 
 const singInStatusCode = 200,
   signInInvalidUserCode = 401,
   signInInvalidPasswordCode = 401,
-  signInSchemaErrorCode = 422,
+  /* signInSchemaErrorCode = 422,*/
   validPassword = 'myPassword123',
   invalidPassword = 'myFakePassword123',
   validEmail = 'dummy.user@wolox.co',
   invalidEmail = 'fake.dummy.user@wolox.co';
-
-factory.define(
-  'user',
-  user,
-  {
-    name: factory.chance('first'),
-    lastname: factory.chance('last'),
-    email: factory.chance('email', { domain: 'wolox.co' }),
-    password: factory.chance('string', { length: 10 })
-  },
-  {
-    afterCreate: model =>
-      encryptPassword(model.password).then(password => {
-        model.password = password;
-        return model.save();
-      })
-  }
-);
 
 describe('POST /users/sessions', () => {
   beforeEach(() =>
@@ -61,7 +41,7 @@ describe('POST /users/sessions', () => {
       .then(response => {
         expect(response.statusCode).toBe(signInInvalidPasswordCode);
       }));
-  test.each([
+  /* test.each([
     {
       email: validEmail
     },
@@ -73,8 +53,6 @@ describe('POST /users/sessions', () => {
     request(app)
       .post('/users/sessions')
       .send(testN)
-      .then(response => {
-        expect(response.statusCode).toBe(signInSchemaErrorCode);
-      })
-  );
+      .then(response => expect(response.statusCode).toBe(signInSchemaErrorCode))
+  );*/
 });

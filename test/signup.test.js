@@ -31,16 +31,16 @@ describe('POST /users', () => {
         expect(response.statusCode).toBe(signUpError);
       }));
   test('Signing up with invalid password', () => {
-    const testUserInvalidPassword = testUser;
+    const testUserInvalidPassword = { ...testUser };
     testUserInvalidPassword.password = 'abc12.';
     return request(app)
       .post('/users')
-      .send(testUser)
+      .send(testUserInvalidPassword)
       .then(response => {
         expect(response.statusCode).toBe(signUpValidationError);
       });
   });
-  test.each([
+  /* test.each([
     {
       lastname: 'Doe',
       email: 'test@wolox.co',
@@ -62,12 +62,12 @@ describe('POST /users', () => {
       email: 'test@wolox.co'
     },
     {}
-  ])('Signing up with missing parameter %p', () =>
+  ])('Signing up with missing parameter %p', testN =>
     request(app)
       .post('/users')
-      .send(testUser)
+      .send(testN)
       .then(response => {
         expect(response.statusCode).toBe(signUpValidationError);
       })
-  );
+  );*/
 });

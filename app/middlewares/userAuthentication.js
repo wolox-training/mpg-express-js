@@ -1,10 +1,10 @@
 const { authenticationError } = require('../errors'),
   logger = require('../logger'),
-  { AUTHENTICATION_ERROR_MSG } = require('../constants/errors'),
+  { AUTHENTICATION_ERROR_MSG, ADMIN_AUTHENTICATION_ERROR_MSG } = require('../constants/errors'),
   { validateToken } = require('../utils/token'),
   { findUserByEmail } = require('../servicesDatabase/user');
 
-exports.authenticate = (req, res, next) => {
+exports.authenticate = (validateAdmin = false) => (req, res, next) => {
   const { token } = req.headers;
   if (!token) {
     return next(authenticationError(AUTHENTICATION_ERROR_MSG));
@@ -15,6 +15,9 @@ exports.authenticate = (req, res, next) => {
       .then(user => {
         if (!user) {
           return next(authenticationError(AUTHENTICATION_ERROR_MSG));
+        }
+        if (validateAdmin && !user.isAdmin) {
+          return next(authenticationError(ADMIN_AUTHENTICATION_ERROR_MSG));
         }
         logger.info(`User ${user.email} authenticated successfully`);
         return next();
