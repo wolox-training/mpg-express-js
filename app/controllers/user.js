@@ -22,8 +22,9 @@ exports.signUpAdmin = (req, res, next) => {
     .then(([user, isCreated]) => {
       if (isCreated) {
         logger.info(`The admin user ${user.name} was created successfully`);
+      } else {
+        logger.info(`User ${user.email} updated as admin`);
       }
-      logger.info(`User ${user.email} updated as admin`);
       return res.status(200).send({ user: userSerializer(user) });
     })
     .catch(next);
