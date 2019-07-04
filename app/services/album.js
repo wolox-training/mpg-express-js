@@ -22,3 +22,11 @@ exports.findPhotosByAlbumId = albumId => {
     }
   );
 };
+
+exports.findAlbumById = id => {
+  logger.info(`Consuming an external api with url: ${config.common.external_api_url}/albums/${id}`);
+  return request({ uri: `${config.common.external_api_url}/albums/${id}`, json: true }).catch(err => {
+    logger.error(err.message);
+    throw errors.externalApiError('Error consuming external API');
+  });
+};

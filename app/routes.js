@@ -11,6 +11,7 @@ exports.init = app => {
   app.get('/health', healthCheck);
   app.get('/albums', albums.findAll);
   app.get('/albums/:id/photos', albums.findPhotosById);
+  app.post('/albums/:id', [authenticate()], albums.buyById);
   app.post('/users', [schemaValidator(userSignUpSchema)], users.signUp);
   app.post('/admin/users', [schemaValidator(userSignUpSchema), authenticate(authAdmin)], users.signUpAdmin);
   app.post('/users/sessions', [schemaValidator(userSignInSchema)], users.signIn);

@@ -20,6 +20,7 @@ exports.authenticate = (validateAdmin = false) => (req, res, next) => {
           return next(authenticationError(ADMIN_AUTHENTICATION_ERROR_MSG));
         }
         logger.info(`User ${user.email} authenticated successfully`);
+        req.session = { user: user.email };
         return next();
       })
       .catch(next);

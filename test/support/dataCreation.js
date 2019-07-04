@@ -1,6 +1,7 @@
 const { factory } = require('factory-girl');
 
 const { user } = require('../../app/models'),
+  { album } = require('../../app/models'),
   { encryptPassword } = require('../../app/utils/userValidations');
 
 factory.define(
@@ -21,3 +22,9 @@ factory.define(
       })
   }
 );
+
+factory.define('album', album, {
+  id: factory.chance('integer', { min: 0, max: 10 }),
+  title: factory.chance('sentence', { words: 3 }),
+  user_id: factory.chance('integer', { min: 0, max: 10 })
+});

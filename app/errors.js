@@ -32,3 +32,6 @@ exports.userSigninError = message => internalError(message, exports.USER_SIGNIN_
 
 exports.AUTHENTICATION_ERROR = 'authentication_error';
 exports.authenticationError = message => internalError(message, exports.AUTHENTICATION_ERROR);
+
+exports.ALBUM_BUY_ERROR = 'album_buy_error';
+exports.albumBuyError = message => internalError(message, exports.ALBUM_BUY_ERROR);
