@@ -38,11 +38,11 @@ exports.loginAdmin = async user => {
         logger.error(`The email ${userFound.email} already exist as admin`);
         throw errors.userSignupError('The email already exist as admin');
       }
-      const userToupdate = { ...userFound.dataValues };
-      userToupdate.isAdmin = true;
+      const userToUpdate = { ...userFound.dataValues };
+      userToUpdate.isAdmin = true;
 
-      const UpdatedUser = await updateUser(userToupdate);
-      return [UpdatedUser[0].dataValues, false];
+      const updatedUser = await updateUser(userToUpdate);
+      return [updatedUser[0].dataValues, false];
     }
     const isAdmin = true;
     const createdUser = await exports.createNewUser(user, isAdmin);

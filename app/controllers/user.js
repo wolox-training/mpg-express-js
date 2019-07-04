@@ -17,20 +17,14 @@ exports.signUp = (req, res, next) => {
 };
 
 exports.signUpAdmin = (req, res, next) => {
-  const user = req.body;
-  const controllerResponse = { user: '' };
-  return loginAdmin(user)
-    .then(response => {
-      const isCreated = response[1];
+  const userToSingUp = req.body;
+  return loginAdmin(userToSingUp)
+    .then(([user, isCreated]) => {
       if (isCreated) {
-        const createdUser = response[0];
-        logger.info(`The admin user ${createdUser.name} was created successfully`);
-        controllerResponse.user = userSerializer(createdUser);
+        logger.info(`The admin user ${user.name} was created successfully`);
       }
-      const updatedUser = response[0];
-      logger.info(`User ${updatedUser.email} updated as admin`);
-      controllerResponse.user = userSerializer(updatedUser);
-      return res.status(200).send(controllerResponse);
+      logger.info(`User ${user.email} updated as admin`);
+      return res.status(200).send({ user: userSerializer(user) });
     })
     .catch(next);
 };
