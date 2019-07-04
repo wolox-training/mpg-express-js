@@ -42,12 +42,12 @@ exports.loginAdmin = async user => {
       userToupdate.isAdmin = true;
 
       const UpdatedUser = await updateUser(userToupdate);
-      return Promise.resolve([UpdatedUser[0].dataValues, false]);
+      return [UpdatedUser[0].dataValues, false];
     }
     const isAdmin = true;
     const createdUser = await exports.createNewUser(user, isAdmin);
-    return Promise.resolve([createdUser, true]);
+    return [createdUser, true];
   } catch (e) {
-    return Promise.reject(e);
+    throw e;
   }
 };
