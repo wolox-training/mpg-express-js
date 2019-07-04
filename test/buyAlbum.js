@@ -6,9 +6,11 @@ const app = require('../app.js');
 const validEmail = 'dummy.user@wolox.co',
   validPassword = 'password1234',
   albumId = 1,
+  invalidAlbumId = -1,
   userId = 1,
   albumPurchasedStatusCode = 200,
-  albumAlreadyPurchasedCode = 409;
+  albumAlreadyPurchasedCode = 409,
+  invalidAlbumIdCode = 500;
 
 describe('POST /albums/:id', () => {
   beforeEach(() =>
@@ -49,4 +51,16 @@ describe('POST /albums/:id', () => {
             expect(response.statusCode).toBe(albumAlreadyPurchasedCode);
           })
       ));
+  test('Should no allow to buy an album with invalid album Id', () =>
+    request(app)
+      .post('/users/sessions')
+      .send({ email: validEmail, password: validPassword })
+      .then(response =>
+        request(app)
+          .post(`/albums/${invalidAlbumId}`)
+          .set({ token: response.body.token })
+      )
+      .then(response => {
+        expect(response.statusCode).toBe(invalidAlbumIdCode);
+      }));
 });
