@@ -24,7 +24,7 @@ factory.define(
 );
 
 factory.define('album', album, {
-  id: factory.chance('integer', { min: 0, max: 10 }),
+  id: factory.chance('integer', { min: 1, max: 10 }),
   title: factory.chance('sentence', { words: 3 }),
-  user_id: factory.chance('integer', { min: 0, max: 10 })
+  user_id: factory.chance('integer', { min: 1, max: 10 })
 });
