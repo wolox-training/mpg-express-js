@@ -2,7 +2,8 @@ const { createUser, findUserByEmail, updateUser } = require('../servicesDatabase
   { encryptPassword, comparePassword } = require('../utils/userValidations'),
   errors = require('../errors'),
   logger = require('../logger'),
-  { generateToken } = require('../utils/token');
+  { generateToken } = require('../utils/token'),
+  { loginAdminUserMapper } = require('../mappers/user');
 
 exports.createNewUser = (user, isAdmin = false) =>
   encryptPassword(user.password).then(hash => {
@@ -39,22 +40,12 @@ exports.loginAdmin = async user => {
         logger.error(`The email ${userFound.email} already exist as admin`);
         throw errors.userSignupError('The email already exist as admin');
       }
-      userToCreateOrUpdate = {
-        name: userFound.name,
-        lastname: userFound.lastname,
-        email: userFound.email,
-        password: userFound.password,
-        isAdmin: true
-      };
+      userToCreateOrUpdate = await loginAdminUserMapper(userFound);
+      console.log(userToCreateOrUpdate);
     } else {
-      const encryptedPassword = await encryptPassword(user.password);
-      userToCreateOrUpdate = {
-        name: user.name,
-        lastname: user.lastname,
-        email: user.email,
-        password: encryptedPassword,
-        isAdmin: true
-      };
+      const encryptPass = true;
+      userToCreateOrUpdate = await loginAdminUserMapper(user, encryptPass);
+      console.log(userToCreateOrUpdate);
     }
     const updatedOrCreatedUser = await updateUser(userToCreateOrUpdate);
     return [updatedOrCreatedUser[0].dataValues, updatedOrCreatedUser[1]];
