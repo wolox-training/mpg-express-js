@@ -27,7 +27,7 @@ exports.buyById = (req, res, next) => {
   return buyAlbum(user, albumId)
     .then(purchasedAlbum => {
       logger.info(`The album ${purchasedAlbum.title} was purchased successfully`);
-      return res.status(200).send({ purchased_album: albumSerializer(purchasedAlbum) });
+      return res.status(200).send({ album: albumSerializer(purchasedAlbum) });
     })
     .catch(next);
 };
