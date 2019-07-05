@@ -2,7 +2,8 @@ const { createUser, findUserByEmail, updateUser } = require('../servicesDatabase
   { encryptPassword, comparePassword } = require('../utils/userValidations'),
   errors = require('../errors'),
   logger = require('../logger'),
-  { generateToken } = require('../utils/token');
+  { generateToken } = require('../utils/token'),
+  { loginAdminUserMapper } = require('../mappers/user');
 
 exports.createNewUser = (user, isAdmin = false) =>
   encryptPassword(user.password).then(hash => {
@@ -32,22 +33,21 @@ exports.loginUser = (email, password) =>
 
 exports.loginAdmin = async user => {
   try {
+    let userToCreateOrUpdate = {};
     const userFound = await findUserByEmail(user.email);
     if (userFound) {
       if (userFound.isAdmin) {
         logger.error(`The email ${userFound.email} already exist as admin`);
         throw errors.userSignupError('The email already exist as admin');
       }
-      const userToupdate = { ...userFound.dataValues };
-      userToupdate.isAdmin = true;
-
-      const UpdatedUser = await updateUser(userToupdate);
-      return Promise.resolve([UpdatedUser[0].dataValues, false]);
+      userToCreateOrUpdate = await loginAdminUserMapper(userFound);
+    } else {
+      const encryptPass = true;
+      userToCreateOrUpdate = await loginAdminUserMapper(user, encryptPass);
     }
-    const isAdmin = true;
-    const createdUser = await exports.createNewUser(user, isAdmin);
-    return Promise.resolve([createdUser, true]);
+    const updatedOrCreatedUser = await updateUser(userToCreateOrUpdate);
+    return [updatedOrCreatedUser[0].dataValues, updatedOrCreatedUser[1]];
   } catch (e) {
-    return Promise.reject(e);
+    throw e;
   }
 };
