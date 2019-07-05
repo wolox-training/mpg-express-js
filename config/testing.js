@@ -5,7 +5,7 @@ exports.config = {
     database: {
       name: process.env.DB_NAME_TEST
     },
-    external_api_url: process.env.EXTERNAL_API_URL,
+    external_api_url: 'https://jsonplaceholder.typicode.com',
     session: {
       secret: 'some-super-secret'
     }
