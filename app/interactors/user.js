@@ -41,11 +41,9 @@ exports.loginAdmin = async user => {
         throw errors.userSignupError('The email already exist as admin');
       }
       userToCreateOrUpdate = await loginAdminUserMapper(userFound);
-      console.log(userToCreateOrUpdate);
     } else {
       const encryptPass = true;
       userToCreateOrUpdate = await loginAdminUserMapper(user, encryptPass);
-      console.log(userToCreateOrUpdate);
     }
     const updatedOrCreatedUser = await updateUser(userToCreateOrUpdate);
     return [updatedOrCreatedUser[0].dataValues, updatedOrCreatedUser[1]];
