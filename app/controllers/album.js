@@ -23,8 +23,8 @@ exports.findPhotosById = (req, res, next) => {
 
 exports.buyById = (req, res, next) => {
   const albumId = req.params.id,
-    { user } = req.session;
-  return buyAlbum(user, albumId)
+    { id: userId } = req.session;
+  return buyAlbum(userId, albumId)
     .then(purchasedAlbum => {
       logger.info(`The album ${purchasedAlbum.title} was purchased successfully`);
       return res.status(200).send({ album: albumSerializer(purchasedAlbum) });

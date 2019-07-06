@@ -1,7 +1,13 @@
-const request = require('supertest'),
-  { factory } = require('factory-girl');
+jest.mock('request-promise');
 
-const app = require('../app.js');
+const request = require('supertest'),
+  { factory } = require('factory-girl'),
+  mockRequestPromise = require('request-promise');
+
+const app = require('../app.js'),
+  errors = require('../app/errors');
+
+const { mockAlbumDataResponse } = require('./mockData/album');
 
 const validEmail = 'dummy.user@wolox.co',
   validPassword = 'password1234',
@@ -19,6 +25,13 @@ describe('POST /albums/:id', () => {
       password: validPassword
     })
   );
+  mockRequestPromise.mockImplementation(requestParams => {
+    const idAlbum = requestParams.uri.split('/')[2];
+    if (parseInt(idAlbum) > 0) {
+      return Promise.resolve(mockAlbumDataResponse);
+    }
+    return Promise.reject(errors.externalApiError('Error consuming external API'));
+  });
 
   test('Should buy an album successfully', () =>
     request(app)

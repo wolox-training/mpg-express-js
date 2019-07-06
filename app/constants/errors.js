@@ -6,3 +6,4 @@ exports.INVALID_PASSWORD_ERROR = 'Invalid password';
 exports.REQUIRED_PASSWORD_ERROR = 'Password is required';
 exports.AUTHENTICATION_ERROR_MSG = 'User no authenticated';
 exports.ADMIN_AUTHENTICATION_ERROR_MSG = 'User without administrator permissions';
+exports.INVALID_ALBUM_ID_ERROR_MSG = 'Album Id is not a valid number';
