@@ -5,6 +5,7 @@ exports.buyAlbumSchema = {
     in: ['params'],
     isInt: {
       errorMessage: errors.INVALID_ALBUM_ID_ERROR_MSG
-    }
+    },
+    toInt: true
   }
 };
