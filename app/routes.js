@@ -4,7 +4,7 @@ const { healthCheck } = require('./controllers/healthCheck'),
   schemaValidator = require('./middlewares/schemaValidator'),
   { authenticate } = require('./middlewares/userAuthentication'),
   { userSignUpSchema, userSignInSchema } = require('./utils/schemasValidators/user'),
-  { buyAlbumSchema } = require('./utils/schemasValidators/album');
+  { buyAlbumSchema, purchasedAlbumsSchema } = require('./utils/schemasValidators/album');
 
 const authAdmin = true;
 
@@ -17,4 +17,9 @@ exports.init = app => {
   app.post('/admin/users', [schemaValidator(userSignUpSchema), authenticate(authAdmin)], users.signUpAdmin);
   app.post('/users/sessions', [schemaValidator(userSignInSchema)], users.signIn);
   app.get('/users', [authenticate()], users.getUsers);
+  app.get(
+    'users/:user_id/albums',
+    [schemaValidator(purchasedAlbumsSchema), authenticate()],
+    albums.purchasedAlbums
+  );
 };
