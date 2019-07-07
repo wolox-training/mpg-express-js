@@ -18,7 +18,7 @@ exports.init = app => {
   app.post('/users/sessions', [schemaValidator(userSignInSchema)], users.signIn);
   app.get('/users', [authenticate()], users.getUsers);
   app.get(
-    'users/:user_id/albums',
+    '/users/:user_id/albums',
     [schemaValidator(purchasedAlbumsSchema), authenticate()],
     albums.purchasedAlbums
   );

@@ -14,7 +14,8 @@ const statusCodes = {
   [errors.NOT_FOUND_ERROR]: 404,
   [errors.USER_SIGNIN_ERROR]: 401,
   [errors.AUTHENTICATION_ERROR]: 401,
-  [errors.ALBUM_BUY_ERROR]: 409
+  [errors.ALBUM_BUY_ERROR]: 409,
+  [errors.USER_PERMISSIONS_ERROR]: 401
 };
 
 exports.handle = (error, req, res, next) => {

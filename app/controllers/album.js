@@ -1,7 +1,7 @@
 const externalApi = require('../services/album'),
   errors = require('../errors'),
   logger = require('../logger'),
-  { buyAlbum } = require('../interactors/album'),
+  { buyAlbum, albumList } = require('../interactors/album'),
   { albumSerializer } = require('../serializers/album');
 
 exports.findAll = (req, res, next) =>
@@ -28,6 +28,17 @@ exports.buyById = (req, res, next) => {
     .then(purchasedAlbum => {
       logger.info(`The album ${purchasedAlbum.title} was purchased successfully`);
       return res.status(200).send({ album: albumSerializer(purchasedAlbum) });
+    })
+    .catch(next);
+};
+
+exports.purchasedAlbums = (req, res, next) => {
+  const loggedUser = { ...req.session },
+    { user_id: userId } = req.params;
+  return albumList(userId, loggedUser)
+    .then(albums => {
+      logger.info(`Albums of the user ${userId} were found successfully`);
+      return res.status(200).send(albums);
     })
     .catch(next);
 };
