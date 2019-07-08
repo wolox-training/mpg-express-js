@@ -9,3 +9,13 @@ exports.buyAlbumSchema = {
     toInt: true
   }
 };
+
+exports.purchasedAlbumsSchema = {
+  user_id: {
+    in: ['params'],
+    isInt: {
+      errorMessage: errors.INVALID_USER_ID_ERROR_MSG
+    },
+    toInt: true
+  }
+};

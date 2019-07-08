@@ -7,3 +7,5 @@ exports.REQUIRED_PASSWORD_ERROR = 'Password is required';
 exports.AUTHENTICATION_ERROR_MSG = 'User no authenticated';
 exports.ADMIN_AUTHENTICATION_ERROR_MSG = 'User without administrator permissions';
 exports.INVALID_ALBUM_ID_ERROR_MSG = 'Album Id is not a valid number';
+exports.INVALID_USER_ID_ERROR_MSG = 'User Id is not a valid number';
+exports.PURCHASED_ALBUMS_ERROR_MSG = 'The user have not permission to get albums purchased by user';

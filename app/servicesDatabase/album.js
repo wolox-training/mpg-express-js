@@ -17,3 +17,16 @@ exports.createAlbum = albumToCreate =>
     logger.error(err.message);
     throw errors.userSignupError('Error creating album in the database');
   });
+
+exports.getAlbumsByUserId = userId =>
+  album
+    .findAll({
+      attributes: ['id', 'title', 'userId'],
+      where: {
+        userId
+      }
+    })
+    .catch(err => {
+      logger.error(err.message);
+      throw errors.userSignupError('Error findin albums by id in the database');
+    });
