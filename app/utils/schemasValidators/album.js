@@ -9,3 +9,13 @@ exports.buyAlbumSchema = {
     toInt: true
   }
 };
+
+exports.photosByAlbumSchema = {
+  id: {
+    in: ['params'],
+    isInt: {
+      errorMessage: errors.INVALID_ALBUM_ID_ERROR_MSG
+    },
+    toInt: true
+  }
+};
