@@ -32,7 +32,7 @@ describe('GET /users/:user_id/albums', () => {
       )
       .then(response => {
         expect(response.statusCode).toBe(getAlbumsStatusCode);
-        expect(response.body).toHaveLength(albumsLength);
+        expect(response.body.albums).toHaveLength(albumsLength);
       }));
   test('Should not allow to get albums from other users successfully (no admin user)', () =>
     request(app)
@@ -64,7 +64,7 @@ describe('GET /users/:user_id/albums', () => {
           )
           .then(response => {
             expect(response.statusCode).toBe(getAlbumsStatusCode);
-            expect(response.body).toHaveLength(albumsLength);
+            expect(response.body.albums).toHaveLength(albumsLength);
           })
       ));
 });

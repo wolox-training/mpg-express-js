@@ -1,6 +1,10 @@
-const { authenticationError } = require('../errors'),
+const { authenticationError, userPermissionsError } = require('../errors'),
   logger = require('../logger'),
-  { AUTHENTICATION_ERROR_MSG, ADMIN_AUTHENTICATION_ERROR_MSG } = require('../constants/errors'),
+  {
+    AUTHENTICATION_ERROR_MSG,
+    ADMIN_AUTHENTICATION_ERROR_MSG,
+    PURCHASED_ALBUMS_ERROR_MSG
+  } = require('../constants/errors'),
   { validateToken } = require('../utils/token'),
   { findUserByEmail } = require('../servicesDatabase/user');
 
@@ -27,4 +31,13 @@ exports.authenticate = (validateAdmin = false) => (req, res, next) => {
   } catch (err) {
     return next(authenticationError(AUTHENTICATION_ERROR_MSG));
   }
+};
+
+exports.validateAlbumIdPurchased = (req, res, next) => {
+  const loggedUser = { ...req.session },
+    { user_id: userId } = req.params;
+  if (loggedUser.id !== userId && !loggedUser.isAdmin) {
+    return next(userPermissionsError(PURCHASED_ALBUMS_ERROR_MSG));
+  }
+  return next();
 };

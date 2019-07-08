@@ -2,7 +2,7 @@ const { healthCheck } = require('./controllers/healthCheck'),
   albums = require('./controllers/album'),
   users = require('./controllers/user'),
   schemaValidator = require('./middlewares/schemaValidator'),
-  { authenticate } = require('./middlewares/userAuthentication'),
+  { authenticate, validateAlbumIdPurchased } = require('./middlewares/userAuthentication'),
   { userSignUpSchema, userSignInSchema } = require('./utils/schemasValidators/user'),
   { buyAlbumSchema, purchasedAlbumsSchema } = require('./utils/schemasValidators/album');
 
@@ -19,7 +19,7 @@ exports.init = app => {
   app.get('/users', [authenticate()], users.getUsers);
   app.get(
     '/users/:user_id/albums',
-    [schemaValidator(purchasedAlbumsSchema), authenticate()],
+    [schemaValidator(purchasedAlbumsSchema), authenticate(), validateAlbumIdPurchased],
     albums.purchasedAlbums
   );
 };

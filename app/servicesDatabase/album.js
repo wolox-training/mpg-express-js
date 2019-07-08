@@ -21,9 +21,9 @@ exports.createAlbum = albumToCreate =>
 exports.getAlbumsByUserId = userId =>
   album
     .findAll({
-      attributes: ['id', 'title', 'user_id'],
+      attributes: ['id', 'title', 'userId'],
       where: {
-        user_id: userId
+        userId
       }
     })
     .catch(err => {
