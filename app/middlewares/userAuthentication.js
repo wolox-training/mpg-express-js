@@ -3,7 +3,8 @@ const { authenticationError, userPermissionsError } = require('../errors'),
   {
     AUTHENTICATION_ERROR_MSG,
     ADMIN_AUTHENTICATION_ERROR_MSG,
-    PURCHASED_ALBUMS_ERROR_MSG
+    PURCHASED_ALBUMS_ERROR_MSG,
+    INVALID_TOKEN_ERROR_MSG
   } = require('../constants/errors'),
   { validateToken } = require('../utils/token'),
   { findUserByEmail } = require('../servicesDatabase/user');
@@ -19,6 +20,9 @@ exports.authenticate = (validateAdmin = false) => (req, res, next) => {
       .then(user => {
         if (!user) {
           return next(authenticationError(AUTHENTICATION_ERROR_MSG));
+        }
+        if (decodeToken.sessionKey !== user.sessionKey) {
+          return next(authenticationError(INVALID_TOKEN_ERROR_MSG));
         }
         if (validateAdmin && !user.isAdmin) {
           return next(authenticationError(ADMIN_AUTHENTICATION_ERROR_MSG));

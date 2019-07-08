@@ -21,14 +21,14 @@ exports.loginUser = (email, password) =>
         logger.error('Invalid email');
         throw errors.userSigninError('Email or password invalid');
       }
-      return comparePassword(password, user.password);
+      return Promise.all([comparePassword(password, user.password), user]);
     })
-    .then(passwordIsValid => {
+    .then(([passwordIsValid, user]) => {
       if (!passwordIsValid) {
         logger.error('Invalid password');
         throw errors.userSigninError('Email or password invalid');
       }
-      return generateToken({ user: email });
+      return generateToken({ user: email, sessionKey: user.sessionKey });
     });
 
 exports.loginAdmin = async user => {

@@ -22,4 +22,5 @@ exports.init = app => {
     [schemaValidator(purchasedAlbumsSchema), authenticate(), validateAlbumIdPurchased],
     albums.purchasedAlbums
   );
+  app.post('/users/sessions/invalidate_all', [authenticate()], users.invalidateAllSessions);
 };

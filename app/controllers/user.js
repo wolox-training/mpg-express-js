@@ -1,4 +1,6 @@
-const { getUsersList } = require('../servicesDatabase/user'),
+const moment = require('moment');
+
+const { getUsersList, updateUser } = require('../servicesDatabase/user'),
   logger = require('../logger'),
   { pagination } = require('../utils/pagination'),
   { userSerializer, listUsersSerializer } = require('../serializers/user');
@@ -46,6 +48,20 @@ exports.getUsers = (req, res, next) => {
     .then(result => {
       logger.info('Users list consulted successfully');
       return res.status(200).send({ page, pageSize, users: listUsersSerializer(result) });
+    })
+    .catch(next);
+};
+
+exports.invalidateAllSessions = (req, res, next) => {
+  const loggerUser = { ...req.session };
+  loggerUser.sessionKey = moment().unix();
+
+  return updateUser(loggerUser)
+    .then(() => {
+      logger.info(`All sessions of the user ${loggerUser.email} were invalidated`);
+      return res.status(200).send({
+        message: `All sessions of the user ${loggerUser.email} were invalidated`
+      });
     })
     .catch(next);
 };
