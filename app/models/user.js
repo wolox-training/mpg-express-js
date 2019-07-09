@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 module.exports = (sequelize, DataTypes) => {
   const user = sequelize.define(
     'user',
@@ -29,6 +31,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: false,
         field: 'is_admin'
+      },
+      sessionKey: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: moment().unix(),
+        field: 'session_key'
       }
     },
     {

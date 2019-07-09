@@ -15,6 +15,7 @@ const statusCodes = {
   [errors.USER_SIGNIN_ERROR]: 401,
   [errors.AUTHENTICATION_ERROR]: 401,
   [errors.ALBUM_BUY_ERROR]: 409,
+  [errors.USER_PERMISSIONS_ERROR]: 401,
   [errors.GET_PHOTOS_ERROR]: 409
 };
 

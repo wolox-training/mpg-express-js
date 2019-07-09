@@ -36,5 +36,8 @@ exports.authenticationError = message => internalError(message, exports.AUTHENTI
 exports.ALBUM_BUY_ERROR = 'album_buy_error';
 exports.albumBuyError = message => internalError(message, exports.ALBUM_BUY_ERROR);
 
+exports.USER_PERMISSIONS_ERROR = 'user_permissions_error';
+exports.userPermissionsError = message => internalError(message, exports.USER_PERMISSIONS_ERROR);
+
 exports.GET_PHOTOS_ERROR = 'get_photos_error';
 exports.getPhotosError = message => internalError(message, exports.GET_PHOTOS_ERROR);
