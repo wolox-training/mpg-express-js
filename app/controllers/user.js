@@ -1,5 +1,8 @@
+const moment = require('moment');
+
 const { getUsersList } = require('../servicesDatabase/user'),
   logger = require('../logger'),
+  config = require('../../config'),
   { pagination } = require('../utils/pagination'),
   { userSerializer, listUsersSerializer } = require('../serializers/user');
 
@@ -35,7 +38,10 @@ exports.signIn = (req, res, next) => {
   return loginUser(email, password)
     .then(token => {
       logger.info(`User ${email} singed in successfully`);
-      return res.status(200).send({ token });
+      const tokenExpirationTime = moment()
+        .add(config.common.session.expirationTime, 'seconds')
+        .format('YYYY-MM-DD HH:mm');
+      return res.status(200).send({ token, expiration_time: tokenExpirationTime });
     })
     .catch(next);
 };
