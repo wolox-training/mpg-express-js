@@ -7,7 +7,7 @@ exports.config = {
     },
     session: {
       secret: 'some-super-secret',
-      expirationTime: 10
+      expirationTime: 1
     },
     external_api_url: 'fake-url.com'
   }

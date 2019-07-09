@@ -1,13 +1,13 @@
 const request = require('supertest'),
   { factory } = require('factory-girl');
 
-const config = require('../config'),
-  app = require('../app.js');
+const app = require('../app.js');
+
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const expiredTokenError = 401,
   validPassword = 'myPassword123',
-  validEmail = 'dummy.user@wolox.co',
-  defaultExpirationTime = config.common.session.expirationTime;
+  validEmail = 'dummy.user@wolox.co';
 
 describe('sessions expiration', () => {
   beforeEach(() =>
@@ -20,14 +20,14 @@ describe('sessions expiration', () => {
     request(app)
       .post('/users/sessions')
       .send({ email: validEmail, password: validPassword })
+      .then(response =>
+        delay(2000).then(() =>
+          request(app)
+            .get('/users')
+            .set({ token: response.body.token })
+        )
+      )
       .then(response => {
-        config.common.session.expirationTime = -1;
-        return request(app)
-          .get('/users')
-          .set({ token: response.body.token });
-      })
-      .then(response => {
-        config.common.session.expirationTime = defaultExpirationTime;
         expect(response.statusCode).toBe(expiredTokenError);
         expect(response.body.message).toBe('Token expired');
         expect(response.body.internal_code).toBe('authentication_error');
