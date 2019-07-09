@@ -6,7 +6,8 @@ exports.config = {
       name: process.env.DB_NAME_TEST
     },
     session: {
-      secret: 'some-super-secret'
+      secret: 'some-super-secret',
+      expirationTime: 1
     },
     external_api_url: 'fake-url.com'
   }

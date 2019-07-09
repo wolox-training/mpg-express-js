@@ -1,9 +1,13 @@
+const moment = require('moment');
+
 const { authenticationError, userPermissionsError } = require('../errors'),
   logger = require('../logger'),
+  config = require('../../config'),
   {
     AUTHENTICATION_ERROR_MSG,
     ADMIN_AUTHENTICATION_ERROR_MSG,
     PURCHASED_ALBUMS_ERROR_MSG,
+    TOKEN_EXPIRED_ERROR_MSG,
     INVALID_TOKEN_ERROR_MSG
   } = require('../constants/errors'),
   { validateToken } = require('../utils/token'),
@@ -16,6 +20,13 @@ exports.authenticate = (validateAdmin = false) => (req, res, next) => {
   }
   try {
     const decodeToken = validateToken(token);
+    const sessionExpirationTime = moment
+      .unix(decodeToken.iat)
+      .add(config.common.session.expirationTime, 'seconds');
+
+    if (moment().isAfter(sessionExpirationTime)) {
+      return next(authenticationError(TOKEN_EXPIRED_ERROR_MSG));
+    }
     return findUserByEmail(decodeToken.user)
       .then(user => {
         if (!user) {
