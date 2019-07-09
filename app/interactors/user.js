@@ -14,22 +14,25 @@ exports.createNewUser = (user, isAdmin = false) =>
     return createUser(user);
   });
 
-exports.loginUser = (email, password) =>
-  findUserByEmail(email)
+exports.loginUser = (email, password) => {
+  let userSessionkey = 0;
+  return findUserByEmail(email)
     .then(user => {
       if (!user) {
         logger.error('Invalid email');
         throw errors.userSigninError('Email or password invalid');
       }
-      return Promise.all([comparePassword(password, user.password), user]);
+      userSessionkey = user.sessionKey;
+      return comparePassword(password, user.password);
     })
-    .then(([passwordIsValid, user]) => {
+    .then(passwordIsValid => {
       if (!passwordIsValid) {
         logger.error('Invalid password');
         throw errors.userSigninError('Email or password invalid');
       }
-      return generateToken({ user: email, sessionKey: user.sessionKey });
+      return generateToken({ user: email, sessionKey: userSessionkey });
     });
+};
 
 exports.loginAdmin = async user => {
   try {
