@@ -40,7 +40,7 @@ describe('POST /users', () => {
         expect(response.statusCode).toBe(signUpValidationError);
       });
   });
-  /* test.each([
+  test.each([
     {
       lastname: 'Doe',
       email: 'test@wolox.co',
@@ -69,5 +69,5 @@ describe('POST /users', () => {
       .then(response => {
         expect(response.statusCode).toBe(signUpValidationError);
       })
-  );*/
+  );
 });

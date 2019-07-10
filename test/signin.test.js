@@ -6,7 +6,7 @@ const app = require('../app.js');
 const singInStatusCode = 200,
   signInInvalidUserCode = 401,
   signInInvalidPasswordCode = 401,
-  /* signInSchemaErrorCode = 422,*/
+  signInSchemaErrorCode = 422,
   validPassword = 'myPassword123',
   invalidPassword = 'myFakePassword123',
   validEmail = 'dummy.user@wolox.co',
@@ -41,7 +41,7 @@ describe('POST /users/sessions', () => {
       .then(response => {
         expect(response.statusCode).toBe(signInInvalidPasswordCode);
       }));
-  /* test.each([
+  test.each([
     {
       email: validEmail
     },
@@ -54,5 +54,5 @@ describe('POST /users/sessions', () => {
       .post('/users/sessions')
       .send(testN)
       .then(response => expect(response.statusCode).toBe(signInSchemaErrorCode))
-  );*/
+  );
 });
