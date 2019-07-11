@@ -42,6 +42,14 @@ const config = {
       header_name: 'authorization',
       secret: process.env.NODE_API_SESSION_SECRET,
       expirationTime: process.env.SESSION_EXPIRATION_TIME
+    },
+    mailer: {
+      host: process.env.NODE_MAILER_HOST,
+      port: process.env.NODE_MAILER_PORT,
+      auth: {
+        user: process.env.NODE_MAILER_USER,
+        pass: process.env.NODE_MAILER_PASS
+      }
     }
   }
 };

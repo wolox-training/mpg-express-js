@@ -13,7 +13,7 @@ const userCreatedStatusCode = 200,
   };
 
 describe('POST /users', () => {
-  test('Signing up user successfully', () =>
+  test('Signing up user successfully with the welcome email sent ', () =>
     request(app)
       .post('/users')
       .send(testUser)

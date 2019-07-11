@@ -16,7 +16,8 @@ const statusCodes = {
   [errors.AUTHENTICATION_ERROR]: 401,
   [errors.ALBUM_BUY_ERROR]: 409,
   [errors.USER_PERMISSIONS_ERROR]: 401,
-  [errors.GET_PHOTOS_ERROR]: 409
+  [errors.GET_PHOTOS_ERROR]: 409,
+  [errors.EMAIL_ERROR]: 500
 };
 
 exports.handle = (error, req, res, next) => {
