@@ -41,3 +41,6 @@ exports.userPermissionsError = message => internalError(message, exports.USER_PE
 
 exports.GET_PHOTOS_ERROR = 'get_photos_error';
 exports.getPhotosError = message => internalError(message, exports.GET_PHOTOS_ERROR);
+
+exports.EMAIL_ERROR = 'email_error';
+exports.emailError = message => internalError(message, exports.EMAIL_ERROR);

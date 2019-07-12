@@ -4,7 +4,8 @@ const { getUsersList, updateUser } = require('../servicesDatabase/user'),
   logger = require('../logger'),
   config = require('../../config'),
   { pagination } = require('../utils/pagination'),
-  { userSerializer, listUsersSerializer } = require('../serializers/user');
+  { userSerializer, listUsersSerializer } = require('../serializers/user'),
+  { sendMail } = require('../services/mailer');
 
 const { createNewUser, loginUser, loginAdmin } = require('../interactors/user');
 
@@ -14,7 +15,12 @@ exports.signUp = (req, res, next) => {
   return createNewUser(newUser)
     .then(createdUser => {
       logger.info(`The user ${createdUser.name} was created successfully`);
-      return res.status(200).send({ user: userSerializer(createdUser) });
+      return sendMail({
+        from: config.common.mailer.defaultFrom,
+        to: newUser.email,
+        subject: config.common.mailer.subject,
+        text: config.common.mailer.signUpText
+      }).then(() => res.status(200).send({ user: userSerializer(createdUser) }));
     })
     .catch(next);
 };
