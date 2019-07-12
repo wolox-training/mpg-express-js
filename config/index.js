@@ -49,7 +49,10 @@ const config = {
       auth: {
         user: process.env.NODE_MAILER_USER,
         pass: process.env.NODE_MAILER_PASS
-      }
+      },
+      signUpText: process.env.EMAIL_SIGNUP_TEXT,
+      subject: process.env.EMAIL_SUBJECT,
+      defaultFrom: process.env.EMAIL_DEFAULT_FROM
     }
   }
 };
